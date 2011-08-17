@@ -1,0 +1,10 @@
+== Pong
+
+TODO
+
+== Install
+
+  bundle install
+
+  ruby main.rb
+

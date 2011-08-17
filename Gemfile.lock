@@ -1,0 +1,21 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    chingu (0.8.1)
+      crack
+      gosu (>= 0.7.25)
+      rest-client
+    chipmunk (5.3.4.5)
+    crack (0.1.8)
+    gosu (0.7.35)
+    mime-types (1.16)
+    rest-client (1.6.3)
+      mime-types (>= 1.16)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  chingu
+  chipmunk
+  gosu
