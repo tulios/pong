@@ -6,11 +6,16 @@ module Pong
 
       include Chingu
 
-      def initialize
+      def initialize options = {}
         super
-        @bar = Bar.create
-        @ball = Ball.create
+        @player = options.delete(:player)
+        @player.update_score!
+
+        @bar = Bar.create :player => @player
+        @ball = Ball.create :bar => @bar
         @bar.define_inputs!
+
+        Block.plot!(15 + rand(10))
 
         self.input = {
           :escape => :exit,
@@ -21,6 +26,7 @@ module Pong
       def update
         super
         push_game_state Pong::States::GameOver if @ball.reach_bottom?
+        push_game_state Pong::States::Victory if Block.all_destroyed?
       end
 
     end

@@ -14,10 +14,12 @@ module Pong
         Text.create(:text=>"ENTER to start", :x => 60, :y => 170, :size => 30, :color => Pong::BLUE)
         Text.create(:text=>"ESC to exit", :x => 60, :y => 200, :size => 30, :color => Pong::RED)
 
+        @player = Player.create
+
         self.input = {
           :escape => :exit,
-          :enter => Pong::States::Level,
-          :return => Pong::States::Level
+          :enter => Pong::States::Level.new(:player => @player),
+          :return => Pong::States::Level.new(:player => @player)
         }
       end
 

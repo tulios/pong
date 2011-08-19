@@ -1,14 +1,18 @@
 # encoding: utf-8
 
 require 'yaml'
+
 require_relative 'pong/game'
 
 require_relative 'pong/elements/bar'
 require_relative 'pong/elements/ball'
+require_relative 'pong/elements/block'
+require_relative 'pong/elements/player'
 
 require_relative 'pong/states/menu'
 require_relative 'pong/states/level'
 require_relative 'pong/states/game_over'
+require_relative 'pong/states/victory'
 
 module Pong
 

@@ -9,14 +9,16 @@ module Pong
     traits :bounding_box, :collision_detection
 
     DEFAULT_MOVIMENT_UNIT = 5
-    attr_accessor :moviment_unit
+    attr_accessor :moviment_unit, :player
 
     def initialize options = {}
+      @player = options.delete :player
       super options.merge(:image => Image["resources/barra.png"])
 
       @moviment_unit = DEFAULT_MOVIMENT_UNIT
       self.x = ((Pong.width + width) / 2) - (width / 2)
       self.y = (Pong.height - (height + 20))
+      cache_bounding_box
     end
 
     def width
@@ -46,8 +48,18 @@ module Pong
 
     def update
       Ball.each_collision(Bar) do |ball, bar|
+
         ball.change_direction!
-        ball.hit!
+
+        # Nasty fix to avoid gameOver on collision detection lag
+        if bar.y < ball.y
+          unless ball.up?
+            ball.change_direction!
+            ball.velocity_x = 0
+          end
+        else
+          ball.hit!
+        end
 
         ball.force_right! if holding? :right
         ball.force_left! if holding? :left
