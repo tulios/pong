@@ -9,7 +9,7 @@ module Pong
       def initialize options = {}
         super
         @player = options.delete(:player)
-        @player.update_score!
+        @player.plot_score!
 
         @bar = Bar.create :player => @player
         @ball = Ball.create :bar => @bar

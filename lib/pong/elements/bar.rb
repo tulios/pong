@@ -52,11 +52,9 @@ module Pong
         ball.change_direction!
 
         # Nasty fix to avoid gameOver on collision detection lag
-        if bar.y < ball.y
-          unless ball.up?
-            ball.change_direction!
-            ball.velocity_x = 0
-          end
+        if bar.y < ball.y and not ball.up?
+          ball.change_direction!
+          ball.velocity_x = 0
         else
           ball.hit!
         end

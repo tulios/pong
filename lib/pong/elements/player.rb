@@ -14,9 +14,12 @@ module Pong
       @score = 0
     end
 
-    def update_score!
-      @text.destroy if @text
+    def plot_score!
       @text = Text.create(:text=>"Score: #{@score}", :x => 20, :y => Pong.height - 30, :size => 20)
+    end
+
+    def update_score!
+      @text.text = "Score: #{@score}" if @text
     end
 
   end
