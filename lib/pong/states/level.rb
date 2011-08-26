@@ -15,7 +15,7 @@ module Pong
         @ball = Ball.create :bar => @bar
         @bar.define_inputs!
 
-        Block.plot!(15 + rand(10))
+        Block.plot! 1 #(15 + rand(10))
 
         self.input = {
           :escape => :exit,
@@ -25,8 +25,11 @@ module Pong
 
       def update
         super
-        push_game_state Pong::States::GameOver if @ball.reach_bottom?
-        push_game_state Pong::States::Victory if Block.all_destroyed?
+        if @ball.reach_bottom?
+          push_game_state Pong::States::GameOver
+        elsif Block.all_destroyed?
+          push_game_state Pong::States::Victory
+        end
       end
 
     end
