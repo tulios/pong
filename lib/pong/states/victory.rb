@@ -9,6 +9,8 @@ module Pong
       def initialize
         super
 
+        Block.destroy_all
+
         @txt_victory = Text.create(:text=>"Victory!", :size => 100)
 
         pos_x = ((Pong.width - @txt_victory.width) / 2)
@@ -20,7 +22,7 @@ module Pong
         Text.create(:text=>"Press ESC", :x => 20, :y => Pong.height - 50, :size => 30, :color => Pong::BLUE)
 
         self.input = {
-          :escape => Pong::States::Menu
+          :escape => lambda { switch_game_state Pong::States::Menu }
         }
       end
 
