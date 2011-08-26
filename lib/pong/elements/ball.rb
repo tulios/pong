@@ -88,12 +88,15 @@ module Pong
       self.velocity_x = (-1 * self.velocity_x) if reach_sides?
 
       self.each_bounding_box_collision(Block) do |ball, block|
-        unless block.destroyed?
+        if block.visible? and not block.destroyed?
           block.hit!
-          @bar.player.score += 50
-          @bar.player.update_score!
+
+          hit!
           change_direction!
           block.elastic? ? calculate_velocity_y!(1, 1) : calculate_velocity_y!
+
+          @bar.player.score += 50
+          @bar.player.update_score!
         end
       end
 

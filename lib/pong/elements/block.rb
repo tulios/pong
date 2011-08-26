@@ -8,6 +8,7 @@ module Pong
 
     trait :bounding_box, :debug => false
     trait :collision_detection
+    trait :timer
 
     Material = Struct.new(:life, :image, :body)
 
@@ -16,6 +17,9 @@ module Pong
 
     def initialize options = {}
       super options
+
+      @red = Gosu::Color.new(0xFFFF0000)
+      @white = Gosu::Color.new(0xFFFFFFFF)
 
       @material = load_material(rand(100) % 3)
       @current_life = @material.life
@@ -44,6 +48,10 @@ module Pong
         @current_life -= 1
         new_image = load_image(@current_life)
         self.image = new_image if new_image
+        self.visible = false
+
+        show_hit
+        after(200) { self.visible = true }
       else
         @destroyed = true
         self.visible = false
@@ -56,7 +64,7 @@ module Pong
     end
 
     def self.plot! quantity
-      block_x, block_y = 40, 40
+      block_x, block_y = 40, 30
       quantity.times do |n|
         if block_x >= Pong.width
           block_x = 40
@@ -69,6 +77,16 @@ module Pong
     end
 
     private
+    def show_hit
+      during(100) do
+        self.color = @red;
+        self.mode = :additive
+      end.then do
+        self.color = @white;
+        self.mode = :default
+      end
+    end
+
     def load_material material_number
       case material_number
         when 0 then Material.new(2, load_image(2), :solid)
@@ -78,10 +96,12 @@ module Pong
     end
 
     def load_image life
-      case life % 3
-        when 0 then Image["resources/blocks/block_green.png"]
-        when 1 then Image["resources/blocks/block_yellow.png"]
-        when 2 then Image["resources/blocks/block_purple.png"]
+      if life <= 2
+        Image["resources/blocks/block_green.png"]
+      elsif life <= 4
+        Image["resources/blocks/block_yellow.png"]
+      elsif life > 4
+        Image["resources/blocks/block_purple.png"]
       end
     end
 
