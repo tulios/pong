@@ -6,7 +6,8 @@ module Pong
     include Gosu
     include Chingu
 
-    traits :velocity, :bounding_circle, :collision_detection
+    trait :bounding_box, :debug => false
+    traits :velocity, :collision_detection
 
     DEFAULT_MOVIMENT_UNIT = 4
     attr_accessor :moviment_unit, :bar
@@ -18,7 +19,7 @@ module Pong
       @moviment_unit = DEFAULT_MOVIMENT_UNIT
       reset_position!
       calculate_velocity_y!
-      cache_bounding_circle
+      cache_bounding_box
     end
 
     def width
@@ -76,6 +77,7 @@ module Pong
     end
 
     def update
+      super
       move!
 
       if reach_top?
@@ -85,7 +87,7 @@ module Pong
 
       self.velocity_x = (-1 * self.velocity_x) if reach_sides?
 
-      Ball.each_collision(Block) do |ball, block|
+      self.each_bounding_box_collision(Block) do |ball, block|
         unless block.destroyed?
           block.hit!
           @bar.player.score += 50

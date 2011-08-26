@@ -6,13 +6,13 @@ module Pong
     include Gosu
     include Chingu
 
-    traits :bounding_box, :collision_detection
+    trait :bounding_box, :debug => false
+    trait :collision_detection
 
     Material = Struct.new(:life, :image, :body)
 
     attr_accessor :material, :current_life
     attr_reader :destroyed
-    @@quantity = 0
 
     def initialize options = {}
       super options
@@ -45,18 +45,17 @@ module Pong
         new_image = load_image(@current_life)
         self.image = new_image if new_image
       else
-        self.destroy
         @destroyed = true
-        @@quantity -= 1
+        self.visible = false
+        self.destroy
       end
     end
 
     def self.all_destroyed?
-      @@quantity == 0 || Block.size == 0
+      Block.size == 0
     end
 
     def self.plot! quantity
-      @@quantity = quantity
       block_x, block_y = 40, 40
       quantity.times do |n|
         if block_x >= Pong.width
@@ -79,10 +78,10 @@ module Pong
     end
 
     def load_image life
-      case life
-        when 2 then Image["resources/blocks/block_green.png"]
-        when 4 then Image["resources/blocks/block_yellow.png"]
-        when 6 then Image["resources/blocks/block_purple.png"]
+      case life % 3
+        when 0 then Image["resources/blocks/block_green.png"]
+        when 1 then Image["resources/blocks/block_yellow.png"]
+        when 2 then Image["resources/blocks/block_purple.png"]
       end
     end
 

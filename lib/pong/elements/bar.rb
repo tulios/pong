@@ -47,18 +47,10 @@ module Pong
     end
 
     def update
-      Ball.each_collision(Bar) do |ball, bar|
-
+      super
+      self.each_bounding_box_collision(Ball) do |bar, ball|
+        ball.hit!
         ball.change_direction!
-
-        # Nasty fix to avoid gameOver on collision detection lag
-        if bar.y < ball.y and not ball.up?
-          ball.change_direction!
-          ball.velocity_x = 0
-        else
-          ball.hit!
-        end
-
         ball.force_right! if holding? :right
         ball.force_left! if holding? :left
       end
