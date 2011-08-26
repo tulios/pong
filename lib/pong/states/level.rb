@@ -15,7 +15,7 @@ module Pong
         @ball = Ball.create :bar => @bar
         @bar.define_inputs!
 
-        Block.plot! 1 #(15 + rand(10))
+        Block.plot!(15 + rand(10))
 
         self.input = {
           :escape => :exit,
