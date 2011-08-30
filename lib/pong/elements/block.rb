@@ -53,6 +53,8 @@ module Pong
         show_hit
         after(200) { self.visible = true }
       else
+        PowerUp.create :x => self.x, :y => self.y
+
         @destroyed = true
         self.visible = false
         self.destroy
