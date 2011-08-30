@@ -6,16 +6,18 @@ module Pong
     include Gosu
     include Chingu
 
-    traits :bounding_box, :collision_detection
+    traits :bounding_box, :collision_detection, :timer
 
     DEFAULT_MOVIMENT_UNIT = 5
-    attr_accessor :moviment_unit, :player
+    attr_accessor :moviment_unit, :player, :speed_bonus
 
     def initialize options = {}
       @player = options.delete :player
       super options.merge(:image => Image["resources/barra.png"])
 
       @moviment_unit = DEFAULT_MOVIMENT_UNIT
+      @speed_bonus = 0
+
       self.x = ((Pong.width + width) / 2) - (width / 2)
       self.y = (Pong.height - (height + 20))
       cache_bounding_box
@@ -38,12 +40,28 @@ module Pong
       }
     end
 
+    def increase_speed! factor = 1
+      @speed_bonus += factor
+      @player.speed = speed
+      @player.update_score!
+    end
+
+    def decrease_speed! factor = 1
+      @speed_bonus -= factor
+      @player.speed = speed
+      @player.update_score!
+    end
+
+    def speed
+      @moviment_unit + @speed_bonus
+    end
+
     def move_left
-      self.x -= @moviment_unit unless reach_left?
+      self.x -= speed unless reach_left?
     end
 
     def move_right
-      self.x += @moviment_unit unless reach_right?
+      self.x += speed unless reach_right?
     end
 
     def update
