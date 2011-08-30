@@ -39,11 +39,11 @@ module Pong
     end
 
     def move_left
-      self.x -= @moviment_unit
+      self.x -= @moviment_unit unless reach_left?
     end
 
     def move_right
-      self.x += @moviment_unit
+      self.x += @moviment_unit unless reach_right?
     end
 
     def update
@@ -54,6 +54,16 @@ module Pong
         ball.force_right! if holding? :right
         ball.force_left! if holding? :left
       end
+    end
+
+    private
+
+    def reach_left?
+      self.x <= self.width / 2
+    end
+
+    def reach_right?
+      self.x >= Pong.width - (self.width / 2)
     end
 
   end
