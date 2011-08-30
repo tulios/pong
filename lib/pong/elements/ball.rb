@@ -32,7 +32,7 @@ module Pong
 
     def reset_position!
       self.x = ((Pong.width + width) / 2) - (width / 2)
-      self.y = 300
+      self.y = 150
 
       @direction = :down
       self.velocity_x = 0
