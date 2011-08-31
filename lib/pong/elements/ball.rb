@@ -55,6 +55,10 @@ module Pong
       self.x <= 0 or self.x >= Pong.width
     end
 
+    def under_the_bar?
+      self.y > @bar.y
+    end
+
     def hit!
       calculate_velocity_x!
     end
@@ -70,6 +74,10 @@ module Pong
 
     def force_left!
       self.velocity_x = -self.velocity_x.abs
+    end
+
+    def force_side!
+      self.x < @bar.x ? self.force_left! : self.force_right!
     end
 
     def move!
