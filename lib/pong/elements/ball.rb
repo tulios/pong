@@ -118,7 +118,11 @@ module Pong
 
     def calculate_velocity_x! random = 5
       value = @moviment_unit + rand(random)
-      self.velocity_x = (self.velocity_x <= 0) ? -value : +value
+      self.velocity_x = if self.velocity_x == 0
+        (rand(2) == 0) ? -value : +value
+      else
+        (self.velocity_x <= 0) ? -value : +value
+      end
     end
 
   end
