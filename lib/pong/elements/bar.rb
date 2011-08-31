@@ -69,7 +69,7 @@ module Pong
       self.each_bounding_box_collision(Ball) do |bar, ball|
         ball.hit!
 
-g        ball.under_the_bar? ? ball.force_side! : ball.change_direction!
+        ball.under_the_bar? ? ball.force_side! : ball.change_direction!
 
         ball.force_right! if holding? :right
         ball.force_left! if holding? :left
